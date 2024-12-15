@@ -8,7 +8,7 @@
 	let { name, age, statedName }: TypeProps = $props();
 </script>
 
-<h1>Hello from {name} with age {age} and stated name is {statedName}</h1>
+<h1>Hello from {name} with age {age} and stated name is {statedName?.replaceAll('t', 'x')}</h1>
 
 <style>
 	h1 {
