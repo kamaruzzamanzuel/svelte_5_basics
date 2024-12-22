@@ -26,13 +26,36 @@
 	};
 
 	// #region form state
+
+	// let formState = $state({
+	// 	name: '',
+	// 	birthdate: '',
+	// 	step: 0,
+	// 	error: ''
+	// });
+
 	let formState = $state({
-		name: '',
-		birthdate: '',
+		answers: {
+			name: '',
+			birthdate: ''
+		},
 		step: 0,
 		error: ''
 	});
 	// #endregion
+
+	const QUESTIONS = [
+		{
+			question: "What's your name?",
+			id: 'name',
+			type: 'text'
+		},
+		{
+			question: 'What is your birthdate?',
+			id: 'birthdate',
+			type: 'date'
+		}
+	];
 </script>
 
 <main>
@@ -68,13 +91,20 @@
 		<p class="error">{formState.error}</p>
 	{/if}
 
-	{@render formStep({
+	<!-- {@render formStep({
 		question: "What's your name?",
 		id: 'name',
 		type: 'text'
-	})}
+	})} -->
 
-	{#if formState.step === 0}
+	<!-- {#each QUESTIONS as question, index (question.id)}
+	{@render formStep(question)}
+	{/each} -->
+	{#each QUESTIONS as { id, question, type }, index (id)}
+		{@render formStep({ id, question, type })}
+	{/each}
+
+	<!-- {#if formState.step === 0}
 		<div>
 			<label for="name">Name</label>
 			<input type="text" bind:value={formState.name} />
@@ -106,15 +136,17 @@
 				}
 			}}>Next</button
 		>
-	{/if}
+	{/if} -->
 	<!-- #endregion -->
 </main>
+
+{JSON.stringify(formState)}
 
 {#snippet formStep({ id, question, type }: TypeFormStepProps)}
 	<article>
 		<div>
 			<label for={id}>{question}</label>
-			<input {type} bind:value={formState[id]} />
+			<input {type} bind:value={formState.answers[id]} />
 		</div>
 	</article>
 {/snippet}
