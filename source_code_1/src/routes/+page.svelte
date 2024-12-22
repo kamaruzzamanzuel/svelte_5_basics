@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Header from './Header.svelte';
+
 	let age = 10;
 
 	let statedName = $state('Scott');
@@ -48,7 +49,7 @@
 	<!-- #endregion -->
 
 	<!-- #region form -->
-	<h1>Form</h1>
+	<h1 class="title">Form</h1>
 	<p>Step : {formState.step}</p>
 
 	{#if formState.error}
@@ -71,9 +72,7 @@
 				}
 			}}>Next</button
 		>
-
-		{:else if formState.step === 1}
-		
+	{:else if formState.step === 1}
 		<div>
 			<label for="birthdate">Birthdate</label>
 			<input type="date" bind:value={formState.birthdate} />
@@ -90,4 +89,20 @@
 			}}>Next</button
 		>
 	{/if}
+	<!-- #endregion -->
 </main>
+
+<style>
+	:global(div) {
+		color: green;
+	}
+	div {
+		background-color: aquamarine;
+	}
+	.title {
+		color: blue;
+	}
+	.error {
+		color: red;
+	}
+</style>
