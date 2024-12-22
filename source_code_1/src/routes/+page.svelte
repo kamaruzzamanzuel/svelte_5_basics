@@ -1,6 +1,12 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 
+	type TypeFormStepProps = {
+		question: string;
+		id: string;
+		type: string;
+	};
+
 	let age = 10;
 
 	let statedName = $state('Scott');
@@ -30,7 +36,13 @@
 </script>
 
 <main>
-	<Header name="Scott" {age} {statedName} {derivedName} />
+	<Header name="Scott" {age} {statedName} {derivedName}>
+		<h2>Header content</h2>
+
+		{#snippet secondChild(name: string, age: number)}
+			<h3>Second Child for {name} aged {age}</h3>
+		{/snippet}
+	</Header>
 
 	<input type="text" bind:value={statedName} />
 	<!-- <button on:click={toggleStatus}>{status}</button> -->
@@ -55,6 +67,12 @@
 	{#if formState.error}
 		<p class="error">{formState.error}</p>
 	{/if}
+
+	{@render formStep({
+		question: "What's your name?",
+		id: 'name',
+		type: 'text'
+	})}
 
 	{#if formState.step === 0}
 		<div>
@@ -91,6 +109,15 @@
 	{/if}
 	<!-- #endregion -->
 </main>
+
+{#snippet formStep({ id, question, type }: TypeFormStepProps)}
+	<article>
+		<div>
+			<label for={id}>{question}</label>
+			<input {type} bind:value={formState[id]} />
+		</div>
+	</article>
+{/snippet}
 
 <style>
 	:global(div) {
