@@ -54,8 +54,22 @@
 			question: 'What is your birthdate?',
 			id: 'birthdate',
 			type: 'date'
+		},
+		{
+			question: 'What is your favorite color?',
+			id: 'color',
+			type: 'color'
 		}
 	];
+
+	function nextStep(id: string) {
+		if (formState.answers[id]) {
+			formState.step += 1;
+			formState.error = '';
+		} else {
+			formState.error = 'please fill the form input';
+		}
+	}
 </script>
 
 <main>
@@ -85,24 +99,36 @@
 
 	<!-- #region form -->
 	<h1 class="title">Form</h1>
-	<p>Step : {formState.step}</p>
 
-	{#if formState.error}
-		<p class="error">{formState.error}</p>
-	{/if}
+	{#if formState.step === QUESTIONS.length}
+		<p>Form is completed</p>
+	{:else}
+		<p>Step : {formState.step + 1}</p>
 
-	<!-- {@render formStep({
+		{#if formState.error}
+			<p class="error">{formState.error}</p>
+		{/if}
+
+		<!-- {@render formStep({
 		question: "What's your name?",
 		id: 'name',
 		type: 'text'
 	})} -->
 
-	<!-- {#each QUESTIONS as question, index (question.id)}
+		<!-- {#each QUESTIONS as question, index (question.id)}
 	{@render formStep(question)}
 	{/each} -->
-	{#each QUESTIONS as { id, question, type }, index (id)}
-		{@render formStep({ id, question, type })}
-	{/each}
+
+		{#each QUESTIONS as { id, question, type }, index (id)}
+			{#if formState.step === index}
+				{@render formStep({ id, question, type })}
+				<!-- {:else}
+		<p>Step {index + 1} is completed</p>		 -->
+			{/if}
+
+			<!-- {@render formStep({ id, question, type })} -->
+		{/each}
+	{/if}
 
 	<!-- {#if formState.step === 0}
 		<div>
@@ -148,6 +174,8 @@
 			<label for={id}>{question}</label>
 			<input {type} bind:value={formState.answers[id]} />
 		</div>
+
+		<button onclick={() => nextStep(id)}>Next</button>
 	</article>
 {/snippet}
 
