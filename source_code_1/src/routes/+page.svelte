@@ -70,6 +70,29 @@
 			formState.error = 'please fill the form input';
 		}
 	}
+
+	// will run on mount
+	$effect(() => {
+		console.log('on mount');
+
+		return () => {
+			// runs on unmount or destroyed
+			// before effect runs again
+			console.log('cleanup');
+		};
+	});
+
+	// will run when statedName changes
+	$effect(() => {
+		console.log('formState', formState);
+
+		return () => {
+			// before effect runs again
+			console.log('before reruns', formState);
+		};
+	});
+
+	$inspect('formState', formState.step);
 </script>
 
 <main>
@@ -165,8 +188,6 @@
 	{/if} -->
 	<!-- #endregion -->
 </main>
-
-{JSON.stringify(formState)}
 
 {#snippet formStep({ id, question, type }: TypeFormStepProps)}
 	<article>
