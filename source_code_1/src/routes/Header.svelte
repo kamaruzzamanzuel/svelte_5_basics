@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createState } from './state.svelte';
+	import { createState, ScottState } from './state.svelte';
 	import type { Snippet } from 'svelte';
 
 	type TypeProps = {
@@ -14,6 +14,7 @@
 	let { name, age, statedName, derivedName, children, secondChild }: TypeProps = $props();
 
 	const myState = createState();
+	const myScottState = new ScottState();
 </script>
 
 <div>
@@ -25,6 +26,7 @@
 	{@render secondChild('scott', 10)}
 
 	<button onclick={myState.up}>{myState.value}</button>
+	<button onclick={() => myScottState.up()}>{myScottState.value}</button>
 </div>
 
 <style>
