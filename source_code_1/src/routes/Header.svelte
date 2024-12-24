@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createState } from './state.svelte';
 	import type { Snippet } from 'svelte';
 
 	type TypeProps = {
@@ -11,6 +12,8 @@
 	};
 
 	let { name, age, statedName, derivedName, children, secondChild }: TypeProps = $props();
+
+	const myState = createState();
 </script>
 
 <div>
@@ -19,7 +22,9 @@
 
 	{@render children()}
 
-	{@render secondChild("scott", 10)}
+	{@render secondChild('scott', 10)}
+
+	<button onclick={myState.up}>{myState.value}</button>
 </div>
 
 <style>
