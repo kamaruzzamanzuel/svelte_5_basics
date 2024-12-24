@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import Header from './Header.svelte';
 
 	type TypeFormStepProps = {
@@ -144,7 +145,12 @@
 
 		{#each QUESTIONS as { id, question, type }, index (id)}
 			{#if formState.step === index}
-				{@render formStep({ id, question, type })}
+				<div
+					in:fly={{ x: 200, duration: 500, delay: 100 }}
+					out:fly={{ x: -200, duration: 500, delay: 100 }}
+				>
+					{@render formStep({ id, question, type })}
+				</div>
 				<!-- {:else}
 		<p>Step {index + 1} is completed</p>		 -->
 			{/if}
